@@ -1,0 +1,186 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Coach screens preview</title>
+<link rel="stylesheet" href="content.css">
+<style>
+  body { margin:0; background:#1a1a1a; font-family:-apple-system,system-ui,sans-serif; }
+  .wrap { display:flex; flex-wrap:wrap; gap:56px; padding:56px; align-items:flex-start; }
+  .slot { position:relative; width:440px; min-height:120px; }
+  .cap { color:#8a8a92; font:600 12px/1 -apple-system,system-ui,sans-serif;
+         letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+  /* Neutralize the fixed positioning so panels sit in a grid for review. */
+  .slot #lcc-panel { position:relative !important; inset:auto !important;
+                     left:auto !important; top:auto !important; right:auto !important; bottom:auto !important; }
+</style>
+<div class="wrap" id="wrap"></div>
+<script>
+const SCREENS = [
+  ["Collapsed pill", "pill"],
+  ["Watching", "watching"],
+  ["Checking (pending)", "checking"],
+  ["Heads up", "warning"],
+  ["On track", "ontrack"],
+  ["Rethink this", "offtrack"],
+  ["Hint (level 2)", "hint"],
+  ["Hint (level 4, pseudocode)", "hint4"],
+  ["Check code: issues found", "detail"],
+  ["Check code: all clear", "clean"],
+  ["Ask (input)", "ask"],
+  ["Ask (answer)", "answer"],
+  ["Error", "error"],
+];
+
+function el(t, c, txt) { const e = document.createElement(t); if (c) e.className = c; if (txt) e.textContent = txt; return e; }
+function badge(t, c) { const b = el("span", "lcc-badge " + c); b.textContent = t; return b; }
+function para(parent, txt, b, headline) {
+  const p = el("div", "lcc-para");
+  if (b) p.appendChild(b);
+  if (headline) { const h = el("span", "lcc-headline"); h.textContent = headline; p.appendChild(h); }
+  if (txt) p.appendChild(document.createTextNode(txt));
+  parent.appendChild(p); return p;
+}
+function tile(kind, label, code) {
+  const t = el("div", "lcc-block lcc-block-" + kind);
+  const h = el("div", "lcc-block-label"); h.appendChild(el("span", null, label));
+  if (kind !== "bad") { const b = el("button", "lcc-copyfix", "Copy"); h.appendChild(b); }
+  t.appendChild(h);
+  const pre = el("pre", "lcc-pre"); pre.appendChild(el("code", null, code)); t.appendChild(pre);
+  return t;
+}
+function listTile(kind, label, items) {
+  const t = el("div", "lcc-block lcc-block-" + kind);
+  if (label) { const h = el("div", "lcc-block-label"); h.appendChild(el("span", null, label)); t.appendChild(h); }
+  const l = el(kind === "steps" ? "ol" : "ul");
+  items.forEach(i => l.appendChild(el("li", null, i)));
+  t.appendChild(l); return t;
+}
+function btns(list) {
+  return list.map(b => `<button type="button" class="lcc-btn ${b[1]}${b[2] ? " lcc-spacer" : ""}">${b[0]}</button>`).join("");
+}
+
+function build(kind) {
+  const panel = el("div"); panel.id = "lcc-panel";
+  const open = kind !== "pill";
+  if (open) panel.classList.add("lcc-open");
+  panel.innerHTML = `
+    <div id="lcc-pill" class="lcc-surface">
+      <span class="lcc-dot lcc-watching"></span><span class="lcc-name">Coach</span>
+      <span class="lcc-pill-status">!</span>
+    </div>
+    <div id="lcc-card" class="lcc-surface" role="status" aria-live="polite">
+      <div class="lcc-head">
+        <span class="lcc-dot lcc-watching"></span><span class="lcc-name">Coach</span>
+        <span class="lcc-status"></span>
+        <button class="lcc-collapse" aria-expanded="true" aria-label="Collapse Coach">&#9662;</button>
+      </div>
+      <div class="lcc-divider"></div>
+      <div class="lcc-body" id="b"></div>
+      <div class="lcc-actions" id="a"></div>
+      <div class="lcc-divider lcc-divider-quiet"></div>
+      <div class="lcc-foot">35 AI calls &middot; 22 checks, 8 reviews, 4 hints, 1 ask</div>
+    </div>`;
+  const b = panel.querySelector("#b"), a = panel.querySelector("#a");
+  const dot = (c) => panel.querySelectorAll(".lcc-dot").forEach(d => d.className = "lcc-dot " + c);
+  const status = (t) => panel.querySelector(".lcc-status").textContent = t;
+
+  if (kind === "pill") return panel;
+
+  if (kind === "watching") {
+    b.classList.add("lcc-muted"); status("watching · idle 0:06");
+    para(b, "Watching your code. Start typing your approach, I'll flag it if you drift off track.");
+    a.innerHTML = btns([["Check code","lcc-primary"],["Hint","lcc-secondary"]]);
+  }
+  if (kind === "checking") {
+    b.classList.add("lcc-muted"); dot("lcc-checking"); status("checking your code…");
+    para(b, "Reading your code…");
+    a.innerHTML = `<button class="lcc-btn lcc-primary" disabled><span class="lcc-pending"></span></button>`;
+  }
+  if (kind === "warning") {
+    dot("lcc-warn"); status("heads up");
+    para(b, "Check the last-index case. Reading flowerbed[len(flowerbed)] will crash, and the boundary logic looks off.", badge("HEADS UP","lcc-badge-warn"));
+    a.innerHTML = btns([["Check code","lcc-primary"],["Hint","lcc-secondary"],["Got it","lcc-ghost",1]]);
+  }
+  if (kind === "ontrack") {
+    dot("lcc-ok"); status("on track");
+    para(b, "Two pointers moving inward is the right shape here, and your loop condition holds up.", badge("ON TRACK","lcc-badge-success"));
+    a.innerHTML = btns([["Check code","lcc-primary"],["Hint","lcc-secondary"],["Got it","lcc-ghost",1]]);
+  }
+  if (kind === "offtrack") {
+    dot("lcc-bad"); status("rethink this");
+    para(b, "Sorting loses the original positions, and this problem needs them. Think about what you have to keep.", badge("RETHINK","lcc-badge-error"));
+    a.innerHTML = btns([["Check code","lcc-primary"],["Hint","lcc-secondary"],["Got it","lcc-ghost",1]]);
+  }
+  if (kind === "hint") {
+    dot("lcc-hint"); status("hint 2/4");
+    para(b, "", badge("HINT","lcc-badge-hint"), "Track what you have already seen.");
+    para(b, "You are checking every earlier number again for each new one. A set remembers what you have seen in one step instead of re-scanning.");
+    b.appendChild(listTile("trace","Example",["nums = [2, 7, 11]","target = 9","at 7, you want to know if 2 was seen"]));
+    a.innerHTML = btns([["Need more","lcc-primary"],["Got it","lcc-ghost",1]]);
+  }
+  if (kind === "hint4") {
+    dot("lcc-hint"); status("hint 4/4");
+    para(b, "", badge("HINT","lcc-badge-hint"), "Store each number's index as you go.");
+    para(b, "Walk the list once. For each number, work out what partner it needs, then check whether you have already stored that partner.");
+    b.appendChild(tile("code","Pseudocode","seen = {}\nfor i, n in enumerate(nums):\n    need = target - n\n    if need in seen:\n        return [seen[need], i]\n    seen[n] = i"));
+    a.innerHTML = btns([["Got it","lcc-primary",1]]);
+  }
+  if (kind === "detail") {
+    dot("lcc-warn"); status("review");
+    para(b, "Two real problems, both in the boundary handling.", badge("HEADS UP","lcc-badge-warn"));
+    [["Reading past the end of the list",
+      "When i is the last index, you look at flowerbed[i + 1], which does not exist. Python raises an IndexError and the run fails.",
+      ["nums = [1, 0, 0]","at i = 2 you read index 3","IndexError"],
+      "if flowerbed[i - 1] == 0 and flowerbed[i + 1] == 0:",
+      "left = flowerbed[i - 1] if i > 0 else 0\nright = flowerbed[i + 1] if i < len(flowerbed) - 1 else 0\nif left == 0 and right == 0:"],
+     ["Counter never resets between runs",
+      "You add to count but never plant the flower, so the same empty spot gets counted more than once.",
+      null,
+      "count += 1",
+      "count += 1\nflowerbed[i] = 1"]].forEach((iss, idx) => {
+      const c = el("div","lcc-issue");
+      const h = el("div","lcc-issue-title");
+      const n = el("span","lcc-issue-num", String(idx+1)); h.appendChild(n);
+      h.appendChild(document.createTextNode(iss[0])); c.appendChild(h);
+      c.appendChild(el("div","lcc-issue-plain", iss[1]));
+      if (iss[2]) c.appendChild(listTile("trace","Example",iss[2]));
+      c.appendChild(tile("bad","Your code",iss[3]));
+      c.appendChild(tile("good","Suggested fix",iss[4]));
+      b.appendChild(c);
+    });
+    a.innerHTML = btns([["Explain more","lcc-secondary"],["Hint","lcc-secondary"],["Got it","lcc-primary",1]]);
+  }
+  if (kind === "clean") {
+    dot("lcc-ok"); status("review");
+    para(b, "I didn't catch a specific bug in what's written so far. Add more of your approach, or ask for a hint.", badge("REVIEWED","lcc-badge-success"));
+    a.innerHTML = btns([["Explain more","lcc-secondary"],["Hint","lcc-secondary"],["Got it","lcc-primary",1]]);
+  }
+  if (kind === "ask") {
+    dot("lcc-hint"); status("ask Coach");
+    b.appendChild(tile("code","Your selection","for i in range(len(flowerbed)):"));
+    const ta = el("textarea","lcc-ask-input");
+    ta.placeholder = "Ask about this selection. e.g. is this how I traverse the string?";
+    ta.rows = 3; b.appendChild(ta);
+    a.innerHTML = btns([["Ask","lcc-primary"],["Cancel","lcc-ghost",1]]);
+  }
+  if (kind === "answer") {
+    dot("lcc-hint"); status("ask Coach");
+    para(b, "That loop walks every index from 0 to the last one. It is fine on its own, but inside the body you reach one index further, which is where it breaks.", badge("ANSWER","lcc-badge-info"));
+    b.appendChild(tile("code","Safer shape","for i in range(len(flowerbed)):\n    left = flowerbed[i - 1] if i > 0 else 0"));
+    a.innerHTML = btns([["Ask another","lcc-secondary"],["Got it","lcc-primary",1]]);
+  }
+  if (kind === "error") {
+    dot("lcc-bad");
+    para(b, "API 400: anthropic-workspace-id is required when authenticating with an identity-linked API key.", badge("ERROR","lcc-badge-error"));
+    a.innerHTML = btns([["OK","lcc-primary",1]]);
+  }
+  return panel;
+}
+
+const wrap = document.getElementById("wrap");
+SCREENS.forEach(([cap, kind]) => {
+  const slot = el("div","slot");
+  slot.appendChild(el("div","cap",cap));
+  slot.appendChild(build(kind));
+  wrap.appendChild(slot);
+});
+</script>

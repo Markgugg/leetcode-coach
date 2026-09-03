@@ -1,0 +1,8 @@
+# local backups from in-place edits
+*.bak
+*.bak2
+*.bak3
+*.bak4
+
+.DS_Store
+node_modules/

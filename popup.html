@@ -1,0 +1,402 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    /* ------------------------------------------------------------ tokens
+       Ported from content.css so the popup reads as the same product
+       as the injected card. */
+    :root {
+      --surface:      #282828;
+      --inset:        #1e1e1e;
+      --page:         #1a1a1a;
+      --raise:        #333333;
+      --raise-hover:  #3d3d3d;
+      --line:         #3e3e3e;
+      --line-soft:    rgba(255, 255, 255, .10);
+      --line-strong:  #4d4d4d;
+      --text:         #eff1f6;   /* 13.0:1 on #282828 */
+      --text-2:       #b3b3b3;   /*  7.0:1 on #282828 */
+      --text-muted:   #8a8a8a;   /*  4.8:1 on #282828 */
+      --green:        #2cbb5d;
+      --green-hover:  #37cc69;
+      --green-ink:    #5fd98a;
+      --orange:       #ffa116;   /* brand dot only */
+      --blue-ink:     #7fbcff;   /*  7.4:1 on #282828 */
+      --r-card:       8px;
+      --r-control:    6px;
+      --dur:          .15s;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 12px;
+      background: var(--page);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ------------------------------------------------------------ header */
+    h1 {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0 0 3px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: .2px;
+    }
+    .dot {
+      flex: 0 0 auto;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+    .sub {
+      margin: 0 0 12px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: var(--text-2);
+    }
+
+    /* ------------------------------------------------------------ sections */
+    .section { margin-bottom: 9px; }
+    .caption {
+      margin: 0 0 4px 2px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-card);
+      padding: 8px 10px;
+    }
+
+    /* ------------------------------------------------------------ rows */
+    /* A .row is one setting: text block on the left, control on the right. */
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .row + .row {
+      margin-top: 9px;
+      padding-top: 9px;
+      border-top: 1px solid var(--line-soft);
+    }
+    .row .hint { margin-top: 1px; }
+    .row .txt { min-width: 0; }
+    .row .name {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+    }
+
+    /* stacked field: label, control, hint */
+    .field + .field { margin-top: 9px; }
+    .field > label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .field > label .opt { font-weight: 400; color: var(--text-muted); }
+    .field .hint { margin-top: 4px; }
+
+    .hint {
+      font-size: 11px;
+      line-height: 1.4;
+      color: var(--text-2);
+    }
+
+    /* ------------------------------------------------------------ inputs */
+    input[type="password"],
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      background: var(--inset);
+      border: 1px solid var(--line);
+      border-radius: var(--r-control);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      line-height: 1.2;
+      padding: 5px 8px;
+      transition: border-color var(--dur) ease;
+    }
+    input::placeholder { color: var(--text-muted); }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green);
+    }
+    :focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
+    input:focus-visible, select:focus-visible { outline-offset: 1px; }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .grid2 label {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 11px;
+      line-height: 1.3;
+      color: var(--text-2);
+    }
+
+    /* ------------------------------------------------------------ switch */
+    .switch {
+      position: relative;
+      flex: 0 0 auto;
+      width: 34px;
+      height: 20px;
+    }
+    .switch input {
+      position: absolute;
+      opacity: 0;
+      width: 34px;
+      height: 20px;
+      margin: 0;
+      cursor: pointer;
+    }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: var(--raise);
+      border-radius: 20px;
+      transition: background var(--dur) ease;
+      cursor: pointer;
+      pointer-events: none;
+    }
+    .slider:before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform var(--dur) ease;
+    }
+    input:checked + .slider { background: var(--green); }
+    input:checked + .slider:before { transform: translateX(14px); }
+    input:focus-visible + .slider {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
+
+    /* ------------------------------------------------------------ usage */
+    .usage-top {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+    #usage-total {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .usage-unit { font-size: 11px; color: var(--text-2); }
+    #reset {
+      margin-left: auto;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: var(--r-control);
+      color: var(--text-2);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 4px 8px;
+      cursor: pointer;
+      transition: background var(--dur) ease, color var(--dur) ease, border-color var(--dur) ease;
+    }
+    #reset:hover { background: var(--raise); color: var(--text); border-color: var(--line-strong); }
+
+
+    /* ------------------------------------------------------------ save */
+    button.save {
+      width: 100%;
+      margin-top: 2px;
+      background: var(--green);
+      color: #06240f;
+      border: none;
+      border-radius: var(--r-control);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 9px;
+      cursor: pointer;
+      transition: background var(--dur) ease;
+    }
+    button.save:hover { background: var(--green-hover); }
+
+    #status {
+      min-height: 14px;
+      margin-top: 6px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--green-ink);
+    }
+
+    a { color: var(--blue-ink); }
+    a:hover { text-decoration: underline; }
+
+    .divider {
+      display: block;
+      height: 1px;
+      border: 0;
+      margin: 10px 0;
+      background: var(--line-soft);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <h1><span class="dot"></span> Coding Coach</h1>
+  <p class="sub">Watches your code on LeetCode and NeetCode.</p>
+
+  <!-- ------------------------------------------------------------ Behaviour -->
+  <div class="section">
+    <div class="caption">Behaviour</div>
+    <div class="panel">
+
+      <div class="row">
+        <span class="txt"><span class="name">Enable coaching</span></span>
+        <label class="switch"><input type="checkbox" id="enabled" aria-label="Enable coaching" /><span class="slider"></span></label>
+      </div>
+
+      <div class="row">
+        <span class="txt">
+          <span class="name">Auto-check while typing</span>
+          <span class="hint">Only checks when you click a button.</span>
+        </span>
+        <label class="switch"><input type="checkbox" id="autoCheck" aria-label="Auto-check while typing" /><span class="slider"></span></label>
+      </div>
+
+      <div class="row">
+        <span class="txt">
+          <span class="name">Quiet when on track</span>
+          <span class="hint">Stays closed and shows a green tick.</span>
+        </span>
+        <label class="switch"><input type="checkbox" id="quietWhenOnTrack" aria-label="Quiet when on track" /><span class="slider"></span></label>
+      </div>
+
+      <div class="row">
+        <span class="txt">
+          <span class="name">Save credits on background checks</span>
+          <span class="hint">Runs the automatic check on Haiku. Your buttons keep the model below.</span>
+        </span>
+        <label class="switch"><input type="checkbox" id="cheapWatch" aria-label="Save credits on background checks" /><span class="slider"></span></label>
+      </div>
+
+      <div class="row">
+        <span class="txt">
+          <span class="name">Highlight issues on editor</span>
+          <span class="hint">Marks the broken lines in red on the editor.</span>
+        </span>
+        <label class="switch"><input type="checkbox" id="highlightOnScreen" aria-label="Highlight issues on editor" /><span class="slider"></span></label>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ---------------------------------------------------------------- Model -->
+  <div class="section">
+    <div class="caption">Model</div>
+    <div class="panel">
+
+      <div class="field">
+        <label for="provider">AI provider</label>
+        <select id="provider">
+          <option value="anthropic">Anthropic (Claude)</option>
+          <option value="openai">OpenAI (GPT)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="apiKey" id="keyLabel">Anthropic API key</label>
+        <input type="password" id="apiKey" placeholder="sk-ant-..." autocomplete="off" />
+        <div class="hint" id="keyHint">From <a id="keyLink" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. Stored locally.</div>
+      </div>
+
+      <div class="field" id="workspaceRow">
+        <label for="workspaceId">Workspace ID <span class="opt">(optional)</span></label>
+        <input type="text" id="workspaceId" placeholder="wrkspc_..." autocomplete="off" />
+        <div class="hint">Only if the API asks. See <a href="https://console.anthropic.com/settings/workspaces" target="_blank" rel="noopener">console workspaces</a>.</div>
+      </div>
+
+      <div class="field">
+        <label for="model">Model</label>
+        <select id="model"></select>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- --------------------------------------------------------------- Timing -->
+  <div class="section">
+    <div class="caption">Timing</div>
+    <div class="panel">
+      <div class="grid2">
+        <div>
+          <label for="pauseSeconds">Pause before check</label>
+          <input type="number" id="pauseSeconds" min="2" step="1" />
+        </div>
+        <div>
+          <label for="cooldownSeconds">Min gap between checks</label>
+          <input type="number" id="cooldownSeconds" min="5" step="5" />
+        </div>
+      </div>
+      <div class="hint" style="margin-top:6px;">Seconds. Higher means fewer automatic calls.</div>
+    </div>
+  </div>
+
+  <!-- ---------------------------------------------------------------- Usage -->
+  <div class="section">
+    <div class="caption">Usage this session</div>
+    <div class="panel">
+      <div class="usage-top">
+        <span id="usage-total">0</span>
+        <span class="usage-unit">AI calls</span>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="hint" style="margin-top:4px;"><span id="usage-breakdown">0 auto · 0 reviews · 0 hints · 0 asks</span></div>
+      <div class="hint" style="margin-top:2px;">Real spend at <a href="https://console.anthropic.com/usage" target="_blank" rel="noopener">console usage</a>.</div>
+    </div>
+  </div>
+
+  <button class="save" id="save">Save</button>
+  <div id="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

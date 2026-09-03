@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<style>
+  body{margin:0;background:#0a0a0c;font-family:-apple-system,BlinkMacSystemFont,system-ui,"Helvetica Neue",Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#6fa8ff;text-decoration:none}a:hover{color:#9cc4ff}
+  @keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(6%,-5%,0) scale(1.15)}100%{transform:translate3d(0,0,0) scale(1)}}
+  @keyframes drift2{0%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(-7%,6%,0) scale(.92)}100%{transform:translate3d(0,0,0) scale(1.05)}}
+</style>
+</helmet>
+
+<section style="display:flex;flex-direction:column;gap:22px;padding:48px 56px 24px">
+  <div style="display:flex;align-items:baseline;gap:14px">
+    <div style="font:600 13px/1 -apple-system,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)">Turn 2 · Borrowed from Apple's own surfaces</div>
+    <div style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(255,255,255,.32)"><a href="#2a">2a</a> Lock Screen notification, <a href="#2b">2b</a> Control Center tile</div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+
+    <div id="2a" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:22px;padding:0 8px;border-radius:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);font:600 11px/1 ui-monospace,Menlo,monospace;color:rgba(255,255,255,.85)">2a</span>
+        <span style="font:500 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.55)">Lock Screen notification · stacked obsidian</span>
+      </div>
+
+      <div style="position:relative;width:620px;height:470px;border-radius:36px;overflow:hidden;background:radial-gradient(130% 110% at 70% 10%,#3d4f6b 0%,#1b2233 45%,#07080d 100%);box-shadow:0 40px 90px -40px rgba(0,0,0,.9)">
+        <div style="position:absolute;width:520px;height:520px;left:-140px;top:-200px;border-radius:50%;background:radial-gradient(circle,rgba(140,190,255,.5),rgba(140,190,255,0) 66%);filter:blur(26px);animation:drift 20s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+        <div style="position:absolute;width:420px;height:420px;right:-120px;bottom:-150px;border-radius:50%;background:radial-gradient(circle,rgba(255,168,96,.45),rgba(255,168,96,0) 68%);filter:blur(28px);animation:drift2 24s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+
+        <div style="position:absolute;left:0;right:0;top:26px;display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,.95)">
+          <div style="font:300 15px/1 -apple-system,system-ui,sans-serif;letter-spacing:.02em;opacity:.7">Tuesday, 3 September</div>
+          <div style="font:200 62px/1.1 -apple-system,system-ui,sans-serif;letter-spacing:-.03em;text-shadow:0 2px 20px rgba(0,0,0,.3)">9:41</div>
+        </div>
+
+        <div style="position:absolute;left:52px;right:52px;bottom:34px;display:flex;flex-direction:column;gap:-10px">
+          <div style="height:14px;margin:0 22px -8px;border-radius:20px 20px 0 0;background:rgba(255,255,255,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-bottom:0"></div>
+          <div style="height:14px;margin:0 11px -8px;border-radius:20px 20px 0 0;background:rgba(255,255,255,.13);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.12);border-bottom:0"></div>
+
+          <div style="position:relative;border-radius:26px;overflow:hidden;background:rgba(28,28,34,.5);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:.5px solid rgba(255,255,255,.16);box-shadow:0 24px 50px -22px rgba(0,0,0,.8),inset 0 .5px 0 rgba(255,255,255,.4)" style-before="content:'';position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(170deg,rgba(255,255,255,.14),rgba(255,255,255,0) 85%);pointer-events:none">
+            <div style="display:flex;gap:12px;padding:14px 16px 12px">
+              <div style="flex:0 0 auto;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,196,107,.95),rgba(255,140,0,.9));box-shadow:0 6px 14px -6px rgba(255,140,0,.8),inset 0 1px 0 rgba(255,255,255,.6);font:700 17px/1 -apple-system,system-ui,sans-serif;color:#3d1f00">C</div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+                <div style="display:flex;align-items:baseline;gap:8px">
+                  <span style="font:600 15px/1 -apple-system,system-ui,sans-serif;letter-spacing:.02em;text-transform:uppercase;color:rgba(255,255,255,.95)">Coach</span>
+                  <span style="font:400 14px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.45)">heads up</span>
+                  <span style="flex:1"></span>
+                  <span style="font:400 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.45)">now</span>
+                </div>
+                <div style="font:400 15px/1.42 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.88);text-wrap:pretty">Check the last-index case — <span style="font:500 13.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:1px 5px;border-radius:6px;background:rgba(255,255,255,.1);color:#f0f0f6">flowerbed[len(flowerbed)]</span> will crash, and the boundary logic looks off.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px;padding:2px 16px 14px 66px">
+              <button style="height:38px;padding:0 18px;border:.5px solid rgba(255,255,255,.3);border-radius:19px;background:linear-gradient(180deg,rgba(60,216,138,.95),rgba(22,172,102,.9));box-shadow:0 8px 18px -8px rgba(22,172,102,.9),inset 0 1px 0 rgba(255,255,255,.55);font:600 15px/1 -apple-system,system-ui,sans-serif;color:#06240f;cursor:pointer;transition:transform .18s cubic-bezier(.32,1.4,.5,1)" style-hover="transform:scale(1.04)" style-active="transform:scale(.96)">Check code</button>
+              <button style="height:38px;padding:0 16px;border:.5px solid rgba(255,255,255,.18);border-radius:19px;background:rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 .5px 0 rgba(255,255,255,.3);font:500 15px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.9);cursor:pointer;transition:background .18s" style-hover="background:rgba(255,255,255,.18)">Hint</button>
+              <span style="flex:1"></span>
+              <button style="height:38px;padding:0 16px;border:.5px solid rgba(255,255,255,.14);border-radius:19px;background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font:500 15px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.68);cursor:pointer;transition:background .18s,color .18s" style-hover="background:rgba(255,255,255,.14);color:#fff">Got it</button>
+            </div>
+
+            <sc-if value="{{ showStats }}" hint-placeholder-val="{{ true }}">
+              <div style="padding:0 16px 14px 66px;font:400 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.38)">35 AI calls · 22 checks, 8 reviews, 4 hints, 1 asks</div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="2b" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:22px;padding:0 8px;border-radius:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);font:600 11px/1 ui-monospace,Menlo,monospace;color:rgba(255,255,255,.85)">2b</span>
+        <span style="font:500 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.55)">Control Center · amber-tinted material</span>
+      </div>
+
+      <div style="position:relative;width:620px;height:470px;border-radius:36px;overflow:hidden;background:linear-gradient(150deg,#ffb98a 0%,#e58f6d 30%,#8e5f8f 68%,#3b2f63 100%);box-shadow:0 40px 90px -40px rgba(0,0,0,.9)">
+        <div style="position:absolute;width:460px;height:460px;left:-120px;top:-140px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,140,.8),rgba(255,214,140,0) 66%);filter:blur(24px);animation:drift 17s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+        <div style="position:absolute;width:400px;height:400px;right:-110px;bottom:-140px;border-radius:50%;background:radial-gradient(circle,rgba(120,110,255,.65),rgba(120,110,255,0) 68%);filter:blur(26px);animation:drift2 23s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+
+        <div style="position:absolute;left:44px;right:44px;top:44px;display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:34px;background:rgba(255,255,255,.16);backdrop-filter:blur(44px) saturate(200%);-webkit-backdrop-filter:blur(44px) saturate(200%);border:.5px solid rgba(255,255,255,.4);box-shadow:0 30px 70px -30px rgba(30,10,40,.75),inset 0 .5px 0 rgba(255,255,255,.65)">
+
+          <div style="display:flex;align-items:center;gap:10px;padding:2px 8px 0">
+            <span style="width:9px;height:9px;border-radius:50%;background:#ffb340;box-shadow:0 0 10px rgba(255,179,64,.9)"></span>
+            <span style="font:600 13px/1 -apple-system,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.92)">Coach</span>
+            <span style="font:400 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.6)">heads up</span>
+            <span style="flex:1"></span>
+            <button style="display:flex;align-items:center;justify-content:center;width:26px;height:26px;border:.5px solid rgba(255,255,255,.45);border-radius:50%;background:rgba(255,255,255,.22);color:#fff;font-size:10px;cursor:pointer;transition:background .2s" style-hover="background:rgba(255,255,255,.4)">▾</button>
+          </div>
+
+          <div style="padding:16px 18px;border-radius:24px;background:linear-gradient(180deg,rgba(255,196,107,.42),rgba(255,149,0,.24));border:.5px solid rgba(255,226,180,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)">
+            <div style="font:700 11px/1 -apple-system,system-ui,sans-serif;letter-spacing:.14em;color:#5f3200;margin-bottom:10px">HEADS UP</div>
+            <div style="font:400 19px/1.42 -apple-system,system-ui,sans-serif;color:#fffaf3;text-shadow:0 1px 8px rgba(90,50,0,.35);text-wrap:pretty">Check the last-index case, indexing <span style="font:500 16px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 6px;border-radius:7px;background:rgba(70,35,0,.28);color:#fff3e0">flowerbed[len(flowerbed)]</span> will crash and the boundary logic looks off.</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px">
+            <button style="height:56px;border:.5px solid rgba(255,255,255,.4);border-radius:20px;background:linear-gradient(180deg,rgba(56,220,140,.95),rgba(20,170,100,.88));box-shadow:0 12px 26px -12px rgba(15,140,85,.9),inset 0 1px 0 rgba(255,255,255,.6);font:600 17px/1 -apple-system,system-ui,sans-serif;color:#fff;cursor:pointer;transition:transform .18s cubic-bezier(.32,1.4,.5,1)" style-hover="transform:scale(1.03)" style-active="transform:scale(.96)">Check code</button>
+            <button style="height:56px;border:.5px solid rgba(255,255,255,.42);border-radius:20px;background:rgba(255,255,255,.28);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.6);font:500 17px/1 -apple-system,system-ui,sans-serif;color:#fff;cursor:pointer;transition:background .18s,transform .18s" style-hover="background:rgba(255,255,255,.44);transform:scale(1.03)" style-active="transform:scale(.96)">Hint</button>
+            <button style="height:56px;border:.5px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.45);font:500 17px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.85);cursor:pointer;transition:background .18s" style-hover="background:rgba(255,255,255,.3);color:#fff">Got it</button>
+          </div>
+
+          <sc-if value="{{ showStats }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:8px;padding:4px 10px 2px;font:400 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.7)">
+              <span style="font-weight:600;color:#fff">35</span><span>AI calls</span>
+              <span style="width:1px;height:11px;background:rgba(255,255,255,.35)"></span>
+              <span>22 checks · 8 reviews · 4 hints · 1 asks</span>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:22px;padding:24px 56px 72px">
+  <div style="display:flex;align-items:baseline;gap:14px">
+    <div style="font:600 13px/1 -apple-system,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)">Turn 1 · Liquid glass coach card</div>
+    <div style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(255,255,255,.32)">Two Apple-flavoured takes — <a href="#1a">1a</a> dark, <a href="#1b">1b</a> clear</div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+
+    <div id="1a" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:22px;padding:0 8px;border-radius:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);font:600 11px/1 ui-monospace,Menlo,monospace;color:rgba(255,255,255,.85)">1a</span>
+        <span style="font:500 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.55)">Smoked glass · dusk</span>
+      </div>
+
+      <div style="position:relative;width:620px;height:470px;border-radius:36px;overflow:hidden;background:radial-gradient(120% 100% at 15% 0%,#2b1d4d 0%,#150f24 55%,#08070d 100%);box-shadow:0 40px 90px -40px rgba(0,0,0,.9)">
+        <div style="position:absolute;width:420px;height:420px;left:-90px;top:-120px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,42,.85),rgba(255,138,42,0) 65%);filter:blur(20px);animation:drift 16s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+        <div style="position:absolute;width:460px;height:460px;right:-140px;bottom:-160px;border-radius:50%;background:radial-gradient(circle,rgba(66,255,181,.55),rgba(66,255,181,0) 65%);filter:blur(24px);animation:drift2 21s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+        <div style="position:absolute;width:340px;height:340px;left:44%;top:52%;border-radius:50%;background:radial-gradient(circle,rgba(120,90,255,.7),rgba(120,90,255,0) 68%);filter:blur(26px);animation:drift 19s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+
+        <div style="position:absolute;left:40px;right:40px;top:52px;padding:6px;border-radius:32px;background:linear-gradient(150deg,rgba(255,255,255,.22),rgba(255,255,255,.02) 40%,rgba(255,255,255,.1));box-shadow:0 30px 70px -28px rgba(0,0,0,.85),0 2px 0 rgba(255,255,255,.06)">
+          <div style="position:relative;border-radius:27px;overflow:hidden;background:rgba(22,22,28,.42);backdrop-filter:blur(34px) saturate(190%);-webkit-backdrop-filter:blur(34px) saturate(190%);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -18px 40px -24px rgba(255,255,255,.14)" style-before="content:'';position:absolute;left:0;right:0;top:0;height:55%;background:linear-gradient(165deg,rgba(255,255,255,.18),rgba(255,255,255,0) 78%);pointer-events:none">
+
+            <div style="display:flex;align-items:center;gap:12px;padding:18px 20px 16px">
+              <span style="width:11px;height:11px;border-radius:50%;background:linear-gradient(180deg,#ffc46b,#ff9500);box-shadow:0 0 14px rgba(255,149,0,.8),inset 0 1px 1px rgba(255,255,255,.7)"></span>
+              <span style="font:600 19px/1 -apple-system,system-ui,sans-serif;letter-spacing:-.01em;color:rgba(255,255,255,.97)">Coach</span>
+              <span style="font:400 17px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.42)">heads up</span>
+              <span style="flex:1"></span>
+              <button style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:11px;cursor:pointer;transition:background .2s,transform .2s" style-hover="background:rgba(255,255,255,.16);color:#fff;transform:translateY(1px)">▾</button>
+            </div>
+
+            <div style="height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.14) 12%,rgba(255,255,255,.14) 88%,rgba(255,255,255,0))"></div>
+
+            <div style="padding:20px 20px 18px;font:400 18px/1.5 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.9);text-wrap:pretty">
+              <span style="display:inline-flex;align-items:center;height:26px;padding:0 11px;margin-right:9px;border-radius:13px;background:linear-gradient(180deg,rgba(255,178,71,.32),rgba(255,149,0,.18));border:1px solid rgba(255,196,107,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.35);font:700 12px/1 -apple-system,system-ui,sans-serif;letter-spacing:.09em;color:#ffd39b;vertical-align:2px">HEADS UP</span>Check the last-index case, indexing <span style="font:500 16px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 6px;border-radius:7px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.08);color:#eaeaf2">flowerbed[len(flowerbed)]</span> will crash and the boundary logic looks off.
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px;padding:2px 20px 20px">
+              <button style="height:46px;padding:0 22px;border:1px solid rgba(255,255,255,.28);border-radius:23px;background:linear-gradient(180deg,rgba(64,220,140,.92),rgba(24,178,104,.86));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 24px -10px rgba(24,178,104,.9),inset 0 1px 0 rgba(255,255,255,.55);font:600 17px/1 -apple-system,system-ui,sans-serif;color:#06240f;cursor:pointer;transition:transform .18s cubic-bezier(.32,1.4,.5,1),box-shadow .18s" style-hover="transform:scale(1.035);box-shadow:0 16px 30px -10px rgba(24,178,104,1),inset 0 1px 0 rgba(255,255,255,.7)" style-active="transform:scale(.97)">Check code</button>
+              <button style="height:46px;padding:0 20px;border:1px solid rgba(255,255,255,.16);border-radius:23px;background:rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.28);font:500 17px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.92);cursor:pointer;transition:background .18s,transform .18s" style-hover="background:rgba(255,255,255,.16);transform:scale(1.03)" style-active="transform:scale(.97)">Hint</button>
+              <span style="flex:1"></span>
+              <button style="height:46px;padding:0 20px;border:1px solid rgba(255,255,255,.16);border-radius:23px;background:rgba(255,255,255,.05);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22);font:500 17px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.72);cursor:pointer;transition:background .18s,color .18s" style-hover="background:rgba(255,255,255,.13);color:#fff">Got it</button>
+            </div>
+
+            <sc-if value="{{ showStats }}" hint-placeholder-val="{{ true }}">
+              <div style="height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.1) 12%,rgba(255,255,255,.1) 88%,rgba(255,255,255,0))"></div>
+              <div style="padding:14px 20px 16px;font:400 14px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.45);letter-spacing:.01em">35 AI calls · 22 checks, 8 reviews, 4 hints, 1 asks</div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="1b" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:22px;padding:0 8px;border-radius:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);font:600 11px/1 ui-monospace,Menlo,monospace;color:rgba(255,255,255,.85)">1b</span>
+        <span style="font:500 13px/1 -apple-system,system-ui,sans-serif;color:rgba(255,255,255,.55)">Clear glass · daylight</span>
+      </div>
+
+      <div style="position:relative;width:620px;height:470px;border-radius:36px;overflow:hidden;background:linear-gradient(160deg,#8fd3ff 0%,#c9b8ff 45%,#ffd6a8 100%);box-shadow:0 40px 90px -40px rgba(0,0,0,.9)">
+        <div style="position:absolute;width:400px;height:400px;left:-70px;bottom:-120px;border-radius:50%;background:radial-gradient(circle,rgba(255,94,138,.75),rgba(255,94,138,0) 66%);filter:blur(18px);animation:drift2 18s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+        <div style="position:absolute;width:440px;height:440px;right:-130px;top:-140px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,255,.7),rgba(0,180,255,0) 66%);filter:blur(22px);animation:drift 15s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+        <div style="position:absolute;width:300px;height:300px;left:36%;top:46%;border-radius:50%;background:radial-gradient(circle,rgba(255,232,120,.85),rgba(255,232,120,0) 68%);filter:blur(24px);animation:drift 22s ease-in-out infinite;animation-play-state:{{ motion }}"></div>
+
+        <div style="position:absolute;left:40px;right:40px;top:52px;padding:5px;border-radius:34px;background:linear-gradient(155deg,rgba(255,255,255,.75),rgba(255,255,255,.14) 45%,rgba(255,255,255,.55));box-shadow:0 26px 60px -26px rgba(40,30,80,.6)">
+          <div style="position:relative;border-radius:29px;overflow:hidden;background:rgba(255,255,255,.5);backdrop-filter:blur(28px) saturate(200%) brightness(1.06);-webkit-backdrop-filter:blur(28px) saturate(200%) brightness(1.06);border:1px solid rgba(255,255,255,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -20px 40px -26px rgba(255,255,255,.8)" style-before="content:'';position:absolute;left:0;right:0;top:0;height:60%;background:linear-gradient(170deg,rgba(255,255,255,.55),rgba(255,255,255,0) 80%);pointer-events:none">
+
+            <div style="display:flex;align-items:center;gap:12px;padding:18px 20px 16px">
+              <span style="width:11px;height:11px;border-radius:50%;background:linear-gradient(180deg,#ffb340,#f97b00);box-shadow:0 0 10px rgba(249,123,0,.55),inset 0 1px 1px rgba(255,255,255,.8)"></span>
+              <span style="font:600 19px/1 -apple-system,system-ui,sans-serif;letter-spacing:-.01em;color:#181820">Coach</span>
+              <span style="font:400 17px/1 -apple-system,system-ui,sans-serif;color:rgba(30,30,45,.5)">heads up</span>
+              <span style="flex:1"></span>
+              <button style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid rgba(255,255,255,.7);border-radius:50%;background:rgba(255,255,255,.45);color:rgba(30,30,45,.65);font-size:11px;cursor:pointer;transition:background .2s,transform .2s" style-hover="background:rgba(255,255,255,.85);transform:translateY(1px)">▾</button>
+            </div>
+
+            <div style="height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85) 12%,rgba(255,255,255,.85) 88%,rgba(255,255,255,0))"></div>
+
+            <div style="padding:20px 20px 18px;font:400 18px/1.5 -apple-system,system-ui,sans-serif;color:rgba(24,24,34,.88);text-wrap:pretty">
+              <span style="display:inline-flex;align-items:center;height:26px;padding:0 11px;margin-right:9px;border-radius:13px;background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(255,196,107,.45));border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 2px 6px -3px rgba(180,110,0,.6);font:700 12px/1 -apple-system,system-ui,sans-serif;letter-spacing:.09em;color:#8a4a00;vertical-align:2px">HEADS UP</span>Check the last-index case, indexing <span style="font:500 16px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 6px;border-radius:7px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.8);color:#2a2a3a">flowerbed[len(flowerbed)]</span> will crash and the boundary logic looks off.
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px;padding:2px 20px 20px">
+              <button style="height:46px;padding:0 22px;border:1px solid rgba(255,255,255,.55);border-radius:23px;background:linear-gradient(180deg,rgba(52,214,130,.95),rgba(20,168,98,.9));box-shadow:0 12px 26px -12px rgba(20,150,90,.85),inset 0 1px 0 rgba(255,255,255,.75);font:600 17px/1 -apple-system,system-ui,sans-serif;color:#fff;cursor:pointer;transition:transform .18s cubic-bezier(.32,1.4,.5,1),box-shadow .18s" style-hover="transform:scale(1.035);box-shadow:0 18px 34px -12px rgba(20,150,90,1),inset 0 1px 0 rgba(255,255,255,.9)" style-active="transform:scale(.97)">Check code</button>
+              <button style="height:46px;padding:0 20px;border:1px solid rgba(255,255,255,.7);border-radius:23px;background:rgba(255,255,255,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.9);font:500 17px/1 -apple-system,system-ui,sans-serif;color:#1e1e2c;cursor:pointer;transition:background .18s,transform .18s" style-hover="background:rgba(255,255,255,.8);transform:scale(1.03)" style-active="transform:scale(.97)">Hint</button>
+              <span style="flex:1"></span>
+              <button style="height:46px;padding:0 20px;border:1px solid rgba(255,255,255,.55);border-radius:23px;background:rgba(255,255,255,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.8);font:500 17px/1 -apple-system,system-ui,sans-serif;color:rgba(30,30,45,.7);cursor:pointer;transition:background .18s,color .18s" style-hover="background:rgba(255,255,255,.7);color:#1e1e2c">Got it</button>
+            </div>
+
+            <sc-if value="{{ showStats }}" hint-placeholder-val="{{ true }}">
+              <div style="height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.75) 12%,rgba(255,255,255,.75) 88%,rgba(255,255,255,0))"></div>
+              <div style="padding:14px 20px 16px;font:400 14px/1 -apple-system,system-ui,sans-serif;color:rgba(30,30,45,.55);letter-spacing:.01em">35 AI calls · 22 checks, 8 reviews, 4 hints, 1 asks</div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showStats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animateBackdrop&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showStats: this.props.showStats ?? true,
+      motion: (this.props.animateBackdrop ?? true) ? "running" : "paused",
+    };
+  }
+}
+</script>
+</body>
+</html>

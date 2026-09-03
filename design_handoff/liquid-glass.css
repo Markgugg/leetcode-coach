@@ -1,0 +1,245 @@
+/* ============================================================
+   Coach — Liquid Glass (variation 1b "Clear glass · daylight")
+   Drop-in token + component layer. Framework-agnostic CSS.
+   Requires: a colorful/blurred backdrop BEHIND any .lg-* surface,
+   otherwise backdrop-filter has nothing to refract and the glass
+   reads as flat grey. See .lg-stage below.
+   ============================================================ */
+
+:root {
+  /* --- glass material --- */
+  --lg-fill:            rgba(255, 255, 255, 0.50);  /* card body */
+  --lg-fill-strong:     rgba(255, 255, 255, 0.80);  /* hover */
+  --lg-fill-quiet:      rgba(255, 255, 255, 0.30);  /* tertiary button */
+  --lg-fill-mid:        rgba(255, 255, 255, 0.50);  /* secondary button */
+  --lg-rim:             rgba(255, 255, 255, 0.60);  /* 1px border */
+  --lg-rim-soft:        rgba(255, 255, 255, 0.45);
+  --lg-specular:        rgba(255, 255, 255, 0.90);  /* inset top hairline */
+  --lg-bezel: linear-gradient(155deg, rgba(255,255,255,.75), rgba(255,255,255,.14) 45%, rgba(255,255,255,.55));
+
+  --lg-blur:            blur(28px) saturate(200%) brightness(1.06);
+  --lg-blur-control:    blur(12px);
+
+  /* --- ink (dark text on light glass) --- */
+  --lg-ink:             #181820;
+  --lg-ink-body:        rgba(24, 24, 34, 0.88);
+  --lg-ink-secondary:   rgba(30, 30, 45, 0.50);
+  --lg-ink-tertiary:    rgba(30, 30, 45, 0.55);
+  --lg-ink-quiet:       rgba(30, 30, 45, 0.70);
+
+  /* --- accents --- */
+  --lg-green-top:       rgba(52, 214, 130, 0.95);
+  --lg-green-bottom:    rgba(20, 168, 98, 0.90);
+  --lg-green-glow:      rgba(20, 150, 90, 0.85);
+  --lg-amber-dot-top:   #ffb340;
+  --lg-amber-dot-bot:   #f97b00;
+  --lg-amber-badge-ink: #8a4a00;
+  --lg-amber-badge:     linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,196,107,.45));
+
+  /* --- geometry --- */
+  --lg-r-panel:         34px;   /* outer bezel */
+  --lg-r-card:          29px;   /* glass body (panel − padding) */
+  --lg-r-control:       23px;   /* capsule buttons, height 46 */
+  --lg-r-pill:          13px;   /* HEADS UP badge, height 26 */
+  --lg-r-code:          7px;
+  --lg-pad-bezel:       5px;
+  --lg-pad-x:           20px;
+  --lg-gap-control:     12px;
+
+  /* --- elevation --- */
+  --lg-shadow-panel:    0 26px 60px -26px rgba(40, 30, 80, 0.60);
+  --lg-shadow-primary:  0 12px 26px -12px var(--lg-green-glow), inset 0 1px 0 rgba(255,255,255,.75);
+  --lg-inset-card:      inset 0 1px 0 var(--lg-specular), inset 0 -20px 40px -26px rgba(255,255,255,.80);
+
+  /* --- type (SF via system stack) --- */
+  --lg-font: -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Helvetica, sans-serif;
+  --lg-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- motion --- */
+  --lg-ease-spring:     cubic-bezier(.32, 1.4, .5, 1);
+  --lg-dur:             .18s;
+}
+
+/* ---------- 0. Stage: the colorful backdrop the glass refracts ----------
+   Any Coach surface must sit on top of something with color + motion.
+   Reuse this on the page/app background, or on a local wrapper. */
+.lg-stage {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #8fd3ff 0%, #c9b8ff 45%, #ffd6a8 100%);
+}
+.lg-stage > .lg-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: lg-drift 18s ease-in-out infinite;
+}
+.lg-blob--rose { width: 400px; height: 400px; left: -70px; bottom: -120px; filter: blur(18px);
+  background: radial-gradient(circle, rgba(255,94,138,.75), rgba(255,94,138,0) 66%); animation-name: lg-drift-b; }
+.lg-blob--cyan { width: 440px; height: 440px; right: -130px; top: -140px; filter: blur(22px);
+  background: radial-gradient(circle, rgba(0,180,255,.70), rgba(0,180,255,0) 66%); animation-duration: 15s; }
+.lg-blob--sun  { width: 300px; height: 300px; left: 36%; top: 46%; filter: blur(24px);
+  background: radial-gradient(circle, rgba(255,232,120,.85), rgba(255,232,120,0) 68%); animation-duration: 22s; }
+
+@keyframes lg-drift   { 0%,100% { transform: translate3d(0,0,0) scale(1);    } 50% { transform: translate3d(6%,-5%,0) scale(1.15); } }
+@keyframes lg-drift-b { 0%,100% { transform: translate3d(0,0,0) scale(1.05); } 50% { transform: translate3d(-7%,6%,0) scale(.92);  } }
+@media (prefers-reduced-motion: reduce) { .lg-stage > .lg-blob { animation: none; } }
+
+/* ---------- 1. Panel = bezel + glass card ----------
+   Two nested elements are load-bearing: the bezel carries the bright
+   gradient rim, the inner card carries the blur. Don't collapse them. */
+.lg-panel {
+  padding: var(--lg-pad-bezel);
+  border-radius: var(--lg-r-panel);
+  background: var(--lg-bezel);
+  box-shadow: var(--lg-shadow-panel);
+}
+.lg-card {
+  position: relative;
+  border-radius: var(--lg-r-card);
+  overflow: hidden;
+  background: var(--lg-fill);
+  -webkit-backdrop-filter: var(--lg-blur);
+  backdrop-filter: var(--lg-blur);
+  border: 1px solid var(--lg-rim);
+  box-shadow: var(--lg-inset-card);
+  font-family: var(--lg-font);
+  color: var(--lg-ink-body);
+  -webkit-font-smoothing: antialiased;
+}
+/* specular sheen — the single detail that makes it read as glass */
+.lg-card::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: 0; height: 60%;
+  background: linear-gradient(170deg, rgba(255,255,255,.55), rgba(255,255,255,0) 80%);
+  pointer-events: none;
+}
+.lg-card > * { position: relative; }
+
+/* ---------- 2. Header ---------- */
+.lg-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 18px var(--lg-pad-x) 16px;
+}
+.lg-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: linear-gradient(180deg, var(--lg-amber-dot-top), var(--lg-amber-dot-bot));
+  box-shadow: 0 0 10px rgba(249,123,0,.55), inset 0 1px 1px rgba(255,255,255,.80);
+}
+.lg-dot--green { background: linear-gradient(180deg, #6ff0a8, #14a862); box-shadow: 0 0 10px rgba(20,168,98,.55), inset 0 1px 1px rgba(255,255,255,.8); }
+.lg-dot--red   { background: linear-gradient(180deg, #ff8f8f, #e5342d); box-shadow: 0 0 10px rgba(229,52,45,.55),  inset 0 1px 1px rgba(255,255,255,.8); }
+
+.lg-title    { font: 600 19px/1 var(--lg-font); letter-spacing: -.01em; color: var(--lg-ink); }
+.lg-subtitle { font: 400 17px/1 var(--lg-font); color: var(--lg-ink-secondary); }
+.lg-spacer   { flex: 1; }
+
+.lg-icon-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.70);
+  background: rgba(255,255,255,.45);
+  color: rgba(30,30,45,.65); font-size: 11px; cursor: pointer;
+  transition: background var(--lg-dur), transform var(--lg-dur);
+}
+.lg-icon-btn:hover { background: rgba(255,255,255,.85); transform: translateY(1px); }
+
+/* ---------- 3. Dividers ---------- */
+.lg-divider {
+  height: 1px; border: 0; margin: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.85) 12%, rgba(255,255,255,.85) 88%, rgba(255,255,255,0));
+}
+.lg-divider--quiet { background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.75) 12%, rgba(255,255,255,.75) 88%, rgba(255,255,255,0)); }
+
+/* ---------- 4. Body ---------- */
+.lg-body {
+  padding: 20px var(--lg-pad-x) 18px;
+  font: 400 18px/1.5 var(--lg-font);
+  color: var(--lg-ink-body);
+  text-wrap: pretty;
+}
+.lg-badge {                        /* inline, sits in the text flow */
+  display: inline-flex; align-items: center;
+  height: 26px; padding: 0 11px; margin-right: 9px;
+  border-radius: var(--lg-r-pill);
+  background: var(--lg-amber-badge);
+  border: 1px solid rgba(255,255,255,.80);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.90), 0 2px 6px -3px rgba(180,110,0,.60);
+  font: 700 12px/1 var(--lg-font); letter-spacing: .09em;
+  color: var(--lg-amber-badge-ink);
+  vertical-align: 2px;
+}
+.lg-badge--info    { background: linear-gradient(180deg, rgba(255,255,255,.80), rgba(120,170,255,.42)); color: #123a80; }
+.lg-badge--success { background: linear-gradient(180deg, rgba(255,255,255,.80), rgba(90,220,150,.42));  color: #0a5233; }
+.lg-badge--error   { background: linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,140,140,.45)); color: #7a1410; }
+
+.lg-code {
+  font: 500 16px/1 var(--lg-mono);
+  padding: 2px 6px; border-radius: var(--lg-r-code);
+  background: rgba(255,255,255,.60);
+  border: 1px solid rgba(255,255,255,.80);
+  color: #2a2a3a;
+}
+
+/* ---------- 5. Controls ---------- */
+.lg-actions { display: flex; align-items: center; gap: var(--lg-gap-control); padding: 2px var(--lg-pad-x) 20px; }
+
+.lg-btn {
+  height: 46px; padding: 0 20px;
+  border-radius: var(--lg-r-control);
+  border: 1px solid rgba(255,255,255,.70);
+  background: var(--lg-fill-mid);
+  -webkit-backdrop-filter: var(--lg-blur-control);
+  backdrop-filter: var(--lg-blur-control);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.90);
+  font: 500 17px/1 var(--lg-font);
+  color: #1e1e2c; cursor: pointer;
+  transition: background var(--lg-dur), transform var(--lg-dur), box-shadow var(--lg-dur), color var(--lg-dur);
+}
+.lg-btn:hover  { background: var(--lg-fill-strong); transform: scale(1.03); }
+.lg-btn:active { transform: scale(.97); }
+.lg-btn:focus-visible { outline: 2px solid rgba(20,168,98,.85); outline-offset: 3px; }
+
+.lg-btn--primary {          /* one per surface, never two */
+  padding: 0 22px;
+  border-color: rgba(255,255,255,.55);
+  background: linear-gradient(180deg, var(--lg-green-top), var(--lg-green-bottom));
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: var(--lg-shadow-primary);
+  font-weight: 600; color: #fff;
+  transition: transform var(--lg-dur) var(--lg-ease-spring), box-shadow var(--lg-dur);
+}
+.lg-btn--primary:hover  { transform: scale(1.035); box-shadow: 0 18px 34px -12px rgba(20,150,90,1), inset 0 1px 0 rgba(255,255,255,.90); }
+.lg-btn--primary:active { transform: scale(.97); }
+
+.lg-btn--quiet {            /* dismiss / right-aligned */
+  border-color: rgba(255,255,255,.55);
+  background: var(--lg-fill-quiet);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.80);
+  color: var(--lg-ink-quiet);
+}
+.lg-btn--quiet:hover { background: rgba(255,255,255,.70); color: #1e1e2c; transform: none; }
+
+.lg-btn--sm { height: 38px; padding: 0 16px; border-radius: 19px; font-size: 15px; }
+.lg-btn:disabled { opacity: .45; cursor: default; transform: none; }
+
+/* ---------- 6. Footer meta ---------- */
+.lg-footer {
+  padding: 14px var(--lg-pad-x) 16px;
+  font: 400 14px/1 var(--lg-font);
+  letter-spacing: .01em;
+  color: var(--lg-ink-tertiary);
+}
+
+/* ---------- 7. Optional: tinted variant (Control Center take, 2b) ----- */
+.lg-tile {
+  padding: 16px 18px; border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,196,107,.42), rgba(255,149,0,.24));
+  border: .5px solid rgba(255,226,180,.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.50);
+}
+
+/* ---------- 8. Fallback: no backdrop-filter support ---------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lg-card { background: rgba(255,255,255,.86); }
+  .lg-btn  { background: rgba(255,255,255,.90); }
+}
